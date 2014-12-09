@@ -1,0 +1,33 @@
+select sub.empno,sub.ename,sub.mgr,boss.ename
+from emp sub join emp boss
+on sub.mgr = boss.empno
+;
+
+select e.empno,e.ename,d.dname,d.loc,e.sal,grade
+from emp e join dept d 
+on e.deptno = d.deptno
+join salgrade on sal between losal and hisal
+where grade > 2;
+
+
+insert into emp(EMPNO, ENAME,JOB,MGR,HIREDATE,SAL,COMM) 
+values(8101,'tauchi','engineer',7902,'2014-04-01',4000,500);
+
+select d.deptno,d.dname,d.loc,e.empno,e.ename
+from dept d
+left outer join emp e 
+on (d.deptno = e.deptno);
+
+
+select d.deptno,d.dname,d.loc,e.empno,e.ename
+from dept d full outer join emp e
+on e.deptno = d.deptno;
+
+select d.deptno,d.dname,d.loc,e.empno,e.ename
+from dept d,emp e
+where e.deptno(+) = d.deptno;
+
+CREATE TABLE LONGTEST (
+ID NUMBER(5),
+LONGTEXT LONG(1)
+);

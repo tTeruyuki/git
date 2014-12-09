@@ -1,0 +1,94 @@
+JOOOOIIIIN
+
+ON句による結合では、ON句の後にWHERE句またはAND句で選択条件を指定。
+USING句による結合では、USING句の後にWHERE句で選択条件を指定。
+
+グループ関数では、COUNT関数の引数に*(アスタリスク)が指定された場合を除き、
+NULL値を無視して集計処理を行います。
+
+条件にグループ関数を使用する場合は、WHERE句ではなくHAVING句で指定。
+
+
+HAVING句にはグループ関数とGROUP BY句に指定されている列を
+指定することができる。列別名を指定することはできない。
+
+列別名はORDER BY句でのみ指定できる。
+これはSQL文が以下の順序で評価される為、
+SELECT句で指定した列別名を認識できるのはORDER BY句のみだから。
+（評価順）　FROM句→WHERE句→GROUP BY句→HAVING句→SELECT句→ORDER BY句
+
+GROUP BY句使用時の注意
+・GROUP BY句には1つ以上の列を指定する
+・GROUP BY句に列別名を指定することはできない
+・GROUP BY句を指定したSELECT文のSELECT句には、
+　GROUP BY句で指定した列、もしくはグループ関数のみ指定できる
+（select句に指定したグループ関数以外の列はすべてGROUP BY句で指定する必要がある）
+・GROUP BY句とORDER BY句を併用する場合、ORDER BY句にはGROUP BY句で指定した列、
+　もしくはグループ関数のみ指定できます。
+（グループ化されている列の値を、グループ化されていない列の値を基準に
+　並べ替える事はできない為）
+
+---グループ関数
+グループ関数はSELECT句、HAVING句、ORDER BY句で
+使用できますが、WHERE句では使用できません。
+AVG,SUM,STDDEV,VARIANCEは、引数として数値型のみ指定可能
+
+SELECT FOR UPDATE 
+通常、Oracle DatabaseではSELECT文の実行時はロックをかけないが、SELECT文に
+FOR UPDATE句を指定することで、検索対象となる行に排他ロックをかけることができる。
+FOR UPDATE句は次のように指定する。
+
+SELECT 列名 [,列名, ...]
+FROM 表名
+[WHERE 条件]
+FOR UPDATE [OF [表名.]列名] [NOWAIT | WAIT n]
+[ORDER BY 列名 [, 列名, ...]];
+
+CREATEするときのデータ型
+VARCHAR2型の列データを定義する場合、データ長を必ず定義しなければなりません。
+なお、NUMBER型ではデータ長の指定を省略することができます。省略された場合、最大精度の浮動小数点となり
+LONG型には以下の制限があります。
+
+・LONG型の列は1つの表に1つだけ定義できる
+・LONG型の列には制約は定義できない
+・LONG型の列はGROUP BY句とORDER BY句に指定できない
+・副問合せによる表の作成時、LONG型の列はコピーできない
+
+
+---データ型
+LONG
+可変長の文字データ型。
+VARCHAR2型と異なり、最大2Gまでのテキストデータを格納することが可能
+ただし、LONG型は表ごとにひとつの列しか利用できず、WHERE/GROUP BY句では使用できない。
+また、整合性制約や索引には使用できない。
+副問い合わせを利用して表を作成する場合はLONG型の列はコピーされない。
+
+RAW(s)
+可変長バイナリ型。sは、1~2000バイトまで指定可能
+LONG RAW
+可変長バイナリ型。RAW型と異なり、最大2Gまでのバイナリデータを格納可能。
+ただし、表ごとに1つの列しかLONG型は使用することができず、WHERE/GROUP BY句では使用できない。
+また、整合性制約や索引には使用できない。
+副問い合わせを使用して表を作成する場合はLONG型の列はコピーされません。
+
+LOB型
+表に複数定義可能
+	BLOB
+	バイナリデータ型。MAX4Gまで指定可能
+	CLOB
+	文字データ型。MAX4Gまで指定可能
+	BFILE
+	読み取り専用のバイナリデータ型。BFILEはOSファイルとして保存され手いるデータに
+	アクセスできる。最大4Gまで。
+ROWID型
+	ROWID
+	表の中の行の一意なアドレスをあらわすBASE64文字列。
+	ROWID擬似列から戻される値に使用する。
+日時及び期間型(ORACLE 9i～)
+TIMESTAMP
+時刻を1秒未満の単位として格納できる。
+TIMESTANP,TIMESTANP WITH TIM EZONE,TIMESTANP WITH LOCAL TIME ZONEの3種類
+	TIMESTANP[(p)]
+	DATE型の拡張。年,月,日,時,分,秒,少数秒値を格納
+	pは少数秒の桁数を0～9で指定する。デフォルトは6
+	

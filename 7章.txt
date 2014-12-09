@@ -1,0 +1,13 @@
+結合
+自然結合
+NATURAL JOIN
+	grammer) SELECT colName FROM tbl1 NATURAL JOIN tbl2;
+		 ex) SELECT ENAME,JOB,SAL,DNAME,LOC FROM EMP NATURAL JOIN DEPT;
+!!!-----NATURAL JOIN使用時の注意-----!!!
+・両方の表で同じ名前とデータ型を持つ列に関してのみ結合が行われる。
+・共通の列が複数存在すれば、それらが全て結合に使用される。
+・共通の列が複数存在するが、その中の1列だけを結合条件として使用したい場合は、USING句を用いる
+・結合列の名前は共通だが、データ型が異なる場合はUSING句を用いる
+・NATURAL JOIN句とUSING句は併用付加(互いに排他的)
+・結合列は、表名または別名で修飾してはいけない
+

@@ -1,0 +1,44 @@
+制約
+メリット
+・宣言の容易性
+・ルールの集中化
+・アプリケーション開発の生産性の向上
+・パフォーマンスの向上
+・制約の使用禁止/使用可能による柔軟性
+
+書式
+CONSTRAINT [制約名] [制約]
+チェック制約
+CONSTRAINT [制約名] ([条件])
+
+外部キー制約
+列定義：CONSTRAINT [制約名] REFERENCES [TABLENAME]([COLUMN_NAME])
+表定義：CONSTRAINT [制約名] FOREIGN KEY ([COLUMN_NAME]) 
+		REFERENCES [TABLENAME]([COLUMN_NAME])
+
+ON DELETE CASCADE:親表内の行が削除された場合に子表の依存行も削除される。
+ON DELETE SET NULL:子表の外部キー値をNULLに更新する。
+・外部キーの値は、親表に存在する値かNULLのどちらか
+・外部キーはデータ値に基づいており、物理的なポインタではない
+
+CREATE TABLE ASコマンド
+コピーできるのは、
+・列名
+・行データ
+・デフォルト値
+・データ型
+・NOT NULL制約
+のみ。
+
+ALTER 表構造の変化
+・新規列の追加
+・既存列の削除
+・既存列の有効桁数及びデータ型変更(前提条件あり)
+・デフォルト値の定義(変更後追加される行にのみ有効)
+・制約の無効化
+・制約の追加、削除
+
+DROP
+外部から参照されている場合、
+DROP TABEL [TABLE_NAME] CASCADE CONSTRAINS
+で、同時に外部キー制約削除
